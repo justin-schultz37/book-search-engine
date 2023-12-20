@@ -3,31 +3,30 @@ const typeDefs = `
     _id: !ID
     username: String!
     email: String!
-    password: String!
     SavedBookd: [Book!]!
     bookCount: Int
  }
 
  type Book {
-   authors: [String]
-   description: String!
-   bookId: String!
-   image: String
-   link: String
-   title: String!
+  authors: [String]
+  description: String!
+  bookId: String!
+  image: String
+  link: String
+  title: String!
  }
 
  input BookInput {
-   authors: [String]
-   description: String!
-   bookId: String!
-   image: String
-   link: String
-   title: String!
+  authors: [String]
+  description: String!
+  bookId: String!
+  image: String
+  link: String
+  title: String!
  }
 
  type Query {
-
+  me: User
  }
 
   type Mutation {
