@@ -29,16 +29,23 @@ const SignupForm = () => {
 
     try {
       const response = await createUser(userFormData);
+      console.log('API request payload:', userFormData);
 
       if (!response.ok) {
         throw new Error('something went wrong!');
       }
 
       const { token, user } = await response.json();
-      console.log(user);
+      console.log('API response:', { token, user });
       Auth.login(token);
     } catch (err) {
       console.error(err);
+
+      // Log more details from the API response
+      if (err.response) {
+        console.error('API response:', await err.response.json());
+      }
+
       setShowAlert(true);
     }
 
