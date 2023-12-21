@@ -9,7 +9,6 @@ const SignupForm = () => {
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  // Use the ADD_USER mutation
   const [addUser, { error }] = useMutation(ADD_USER);
 
   const handleInputChange = (event) => {
@@ -31,13 +30,20 @@ const SignupForm = () => {
         variables: { ...userFormData },
       });
 
+      console.log('Request Payload', userFormData);
+
+      if (!data || error) {
+        throw new Error('Received unsuccessful response from server');
+      }
+
       const { token, user } = data.addUser;
+      console.log('API response:', { token, user });
       Auth.login(token);
     } catch (err) {
-      console.error(err);
+      console.error('Error from server:', err);
 
-      if (error) {
-        console.error('Apollo error:', error);
+      if (err.graphQLErrors) {
+        console.error('GraphQL Errors:', err.graphQLErrors);
       }
 
       setShowAlert(true);
@@ -95,6 +101,7 @@ const SignupForm = () => {
           />
           <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
         </Form.Group>
+
         <Button
           disabled={!(userFormData.username && userFormData.email && userFormData.password)}
           type='submit'

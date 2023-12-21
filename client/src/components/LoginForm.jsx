@@ -10,7 +10,7 @@ const LoginForm = () => {
   const [showAlert, setShowAlert] = useState(false);
 
   // Use the LOGIN_USER mutation
-  const [loginUser, { error }] = useMutation(LOGIN_USER);
+  const [loginUser, { data, error }] = useMutation(LOGIN_USER);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -28,18 +28,26 @@ const LoginForm = () => {
 
     try {
       const { data } = await loginUser({
-        variables: { ...userFormData },
+        variables: {
+          email: userFormData.email,
+          password: userFormData.password,
+        },
       });
 
-      const { token, user } = data.loginUser;
+      if (!data || error) {
+        throw new Error('Received unsuccessful response from server');
+      }
+
+      const { token, user } = data.login;
+
+      if (!token || !user) {
+        throw new Error('Token or user data is missing in the response');
+      }
+
+      console.log('API response:', { token, user });
       Auth.login(token);
     } catch (err) {
       console.error(err);
-
-      if (error) {
-        console.error('Apollo error:', error);
-      }
-
       setShowAlert(true);
     }
 
