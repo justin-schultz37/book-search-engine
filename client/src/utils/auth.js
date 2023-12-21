@@ -33,9 +33,14 @@ class AuthService {
   }
 
   login(idToken) {
-    // Saves user token to localStorage
-    localStorage.setItem('id_token', idToken);
-    window.location.assign('/');
+    // Ensure idToken is not undefined before storing
+    if (idToken) {
+      // Saves user token to localStorage
+      localStorage.setItem('id_token', idToken);
+      window.location.assign('/');
+    } else {
+      console.error("Received undefined idToken during login.");
+    }
   }
 
   logout() {

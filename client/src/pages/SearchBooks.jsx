@@ -63,14 +63,15 @@ const SearchBooks = () => {
   };
 
   const handleSaveBook = async (bookId) => {
-    const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-    if (!token) {
-      return false;
-    }
-
     try {
+      const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
+      const token = Auth.loggedIn() ? Auth.getToken() : null;
+
+      if (!token) {
+        console.error("Authentication token not available. Unable to save the book.");
+        return false;
+      }
+
       const { data } = await saveBookMutation({
         variables: { bookInput: bookToSave },
       });
@@ -78,12 +79,23 @@ const SearchBooks = () => {
       // Access the saved book data from the mutation response if needed
       const savedBook = data.saveBook;
 
-      // If book successfully saves to user's account, save book id to state
+      // If book successfully saves to the user's account, save book id to state
       setSavedBookIds([...savedBookIds, savedBook.bookId]);
+      console.log("Book successfully saved:", savedBook);
     } catch (err) {
-      console.error(err);
+      console.error("Error saving the book:", err);
+
+      // You can add more specific error handling based on the type of error
+      if (err.message.includes("specificErrorMessage")) {
+        // Handle specific error case
+        console.error("Specific error occurred:", err);
+      }
+
+      // You can log the entire error object for more detailed information
+      console.error("Full error object:", err);
     }
   };
+
 
   return (
     <>
