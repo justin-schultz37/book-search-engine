@@ -6,7 +6,7 @@ query me {
       _id
       username
       email
-      SavedBooks {
+      savedBooks {
         title
         authors
         description

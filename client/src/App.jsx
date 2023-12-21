@@ -1,9 +1,8 @@
 import React from 'react';
 import './App.css';
 import { Outlet } from 'react-router-dom';
-import { createHttpLink } from '@apollo/client/link/http';
 import { setContext } from '@apollo/client/link/context';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import Auth from './utils/auth';
 
 import Navbar from './components/Navbar';

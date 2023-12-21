@@ -1,13 +1,13 @@
 const { User } = require('../models');
-const { signToken } = require('../utils/auth');
+const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
     Query: {
-        me: async (_, __, { user }) => {
-            if (!user) {
-                throw new Error('Not authenticated');
+        me: async (parent, args, context) => {
+            if (context.user) {
+                return User.findOne({ _id: context.user._id }).populate('savedBooks');
             }
-            return User.findOne({ _id: user._id });
+            throw AuthenticationError;
         },
     },
 
