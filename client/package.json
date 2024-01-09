@@ -2,6 +2,7 @@
   "name": "client",
   "private": true,
   "version": "0.0.0",
+  "proxy": "https://aqueous-woodland-97981-a0f14f55c23c.herokuapp.com/",
   "type": "module",
   "scripts": {
     "dev": "vite",
