@@ -3,7 +3,7 @@
 
 ## Description
 Project was to convert book-search application from using RESTful API to GraphQL API.
-[Article Preview!](./client/assets/Screenshot%202024-01-09%20215811.png)
+![Article Preview!](./client/assets/Screenshot%202024-01-09%20215811.png)
     
 ## Installation
 -Node
